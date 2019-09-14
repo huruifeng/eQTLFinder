@@ -111,7 +111,7 @@ def DNN_multi(dataset_X,dataset_Y):
 
     batch_size = 32
     epoach = 10
-    learning_rate = 0.0005
+    learning_rate = 0.005
 
     ##=========================================================
     Roadmap_model = get_model(Roadmap_train_X.shape[1], 'Roadmap')
