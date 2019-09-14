@@ -103,20 +103,20 @@ def multiVAE_LR(dataset_X,dataset_Y):
     intermediate_dim = 256
     latent_dim = 64
 
-    x = Input(shape=(original_dim,))
-    h = Dense(intermediate_dim, activation='relu')(x)
-    z_mean = Dense(latent_dim)(h)
-    z_log_sigma = Dense(latent_dim)(h)
+    x = Input(shape=(original_dim,), name="mVAE_LR_Roadmap_input")
+    h = Dense(intermediate_dim, activation='relu', name="mVAE_LR_Roadmap_hidden")(x)
+    z_mean = Dense(latent_dim, name="mVAE_LR_Roadmap_zmean")(h)
+    z_log_sigma = Dense(latent_dim, name="mVAE_LR_Roadmap_zlogsigma")(h)
 
     def sampling(args):
         z_mean, z_log_sigma = args
         epsilon = K.random_normal(shape=tf.shape(z_mean))
         return z_mean + K.exp(z_log_sigma * 0.5) * epsilon
 
-    z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_sigma])
+    z = Lambda(sampling, output_shape=(latent_dim,), name="mVAE_LR_Roadmap_z")([z_mean, z_log_sigma])
 
-    h_decoded = Dense(intermediate_dim, activation='relu')(z)
-    x_decoded_mean = Dense(original_dim, activation='sigmoid')(h_decoded)
+    h_decoded = Dense(intermediate_dim, activation='relu', name="mVAE_LR_Roadmap_hdecode")(z)
+    x_decoded_mean = Dense(original_dim, activation='sigmoid', name="mVAE_LR_Roadmap_decodemean")(h_decoded)
 
     Roadmap_VAE = Model(x, x_decoded_mean)
     Roadmap_encoder = Model(x, z_mean)
@@ -149,15 +149,15 @@ def multiVAE_LR(dataset_X,dataset_Y):
     intermediate_dim = 256
     latent_dim = 64
 
-    x = Input(shape=(original_dim,))
-    h = Dense(intermediate_dim, activation='relu')(x)
-    z_mean = Dense(latent_dim)(h)
-    z_log_sigma = Dense(latent_dim)(h)
+    x = Input(shape=(original_dim,), name="mVAE_LR_TF_input")
+    h = Dense(intermediate_dim, activation='relu', name="mVAE_LR_TF_hidden")(x)
+    z_mean = Dense(latent_dim, name="mVAE_LR_TF_zmean")(h)
+    z_log_sigma = Dense(latent_dim, name="mVAE_LR_TF_zlogsigma")(h)
 
-    z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_sigma])
+    z = Lambda(sampling, output_shape=(latent_dim,), name="mVAE_LR_TF_z")([z_mean, z_log_sigma])
 
-    h_decoded = Dense(intermediate_dim, activation='relu')(z)
-    x_decoded_mean = Dense(original_dim, activation='sigmoid')(h_decoded)
+    h_decoded = Dense(intermediate_dim, activation='relu', name="mVAE_LR_TF_hdecode")(z)
+    x_decoded_mean = Dense(original_dim, activation='sigmoid', name="mVAE_LR_TF_decodemean")(h_decoded)
 
     TF_VAE = Model(x, x_decoded_mean)
     TF_encoder = Model(x, z_mean)
@@ -185,15 +185,15 @@ def multiVAE_LR(dataset_X,dataset_Y):
     intermediate_dim = 256
     latent_dim = 64
 
-    x = Input(shape=(original_dim,))
-    h = Dense(intermediate_dim, activation='relu')(x)
-    z_mean = Dense(latent_dim)(h)
-    z_log_sigma = Dense(latent_dim)(h)
+    x = Input(shape=(original_dim,), name="mVAE_LR_DMAacc_Input")
+    h = Dense(intermediate_dim, activation='relu', name="mVAE_LR_DMAacc_hidden")(x)
+    z_mean = Dense(latent_dim, name="mVAE_LR_DMAacc_zmean")(h)
+    z_log_sigma = Dense(latent_dim, name="mVAE_LR_DMAacc_zlogsigma")(h)
 
-    z = Lambda(sampling, output_shape=(latent_dim,))([z_mean, z_log_sigma])
+    z = Lambda(sampling, output_shape=(latent_dim,), name="mVAE_LR_DMAacc_z")([z_mean, z_log_sigma])
 
-    h_decoded = Dense(intermediate_dim, activation='relu')(z)
-    x_decoded_mean = Dense(original_dim, activation='sigmoid')(h_decoded)
+    h_decoded = Dense(intermediate_dim, activation='relu', name="mVAE_LR_DMAacc_hdecode")(z)
+    x_decoded_mean = Dense(original_dim, activation='sigmoid', name="mVAE_LR_DMAacc_decodemean")(h_decoded)
 
     DNAacc_VAE = Model(x, x_decoded_mean)
     DNAacc_encoder = Model(x, z_mean)

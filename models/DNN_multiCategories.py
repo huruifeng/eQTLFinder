@@ -69,16 +69,16 @@ def get_model(input_dim, str):
 
     inputs = Input(shape=(input_dim,), name=str + '_input')
 
-    x = Dense(512, activation='relu', kernel_initializer='random_uniform', name=str + '_Dense1')(inputs)
+    x = Dense(512, activation='relu', kernel_initializer='random_uniform', name=str + '_sub_Dense1')(inputs)
     x = Dropout(0.2)(x)  # Avoid overfitting
 
-    x = Dense(256, activation='relu', kernel_initializer='random_uniform', name=str + '_Dense2')(x)
+    x = Dense(256, activation='relu', kernel_initializer='random_uniform', name=str + '_sub_Dense2')(x)
     x = Dropout(0.2)(x)
 
-    x = Dense(128, activation='relu', kernel_initializer='random_uniform', name=str + '_Dense3')(x)
+    x = Dense(128, activation='relu', kernel_initializer='random_uniform', name=str + '_sub_Dense3')(x)
     x = Dropout(0.2)(x)
 
-    x = Dense(64, activation='relu', kernel_initializer='random_uniform', name=str + '_Dense4')(x)
+    x = Dense(64, activation='relu', kernel_initializer='random_uniform', name=str + '_sub_Dense4')(x)
 
     model = Model(inputs=inputs, outputs=x)
 
@@ -127,10 +127,10 @@ def DNN_multi(dataset_X,dataset_Y):
     test_sets = [Roadmap_test_X, TF_test_X, DNAacc_test_X]
 
     combined_model = concatenate(concat_frames)
-    z = Dense(64, activation='relu', kernel_initializer='random_uniform', name='main_Dense2')(combined_model)
-    z = Dense(16, activation='relu', kernel_initializer='random_uniform', name='main_Dense3')(z)
-    z = Dense(4, activation='relu', kernel_initializer='random_uniform', name='main_Dense4')(z)
-    z = Dense(1, activation='sigmoid', bias_initializer="zeros", name='main_output')(z)
+    z = Dense(64, activation='relu', kernel_initializer='random_uniform', name='mDNN_Dense1')(combined_model)
+    z = Dense(16, activation='relu', kernel_initializer='random_uniform', name='mDNN_Dense2')(z)
+    z = Dense(4, activation='relu', kernel_initializer='random_uniform', name='mDNN_Dense3')(z)
+    z = Dense(1, activation='sigmoid', name='mDNN_output')(z)
 
     model = Model(inputs=model_input, outputs=z)
 

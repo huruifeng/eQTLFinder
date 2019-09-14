@@ -13,7 +13,7 @@ import time
 import numpy as np
 
 from keras import optimizers
-from keras.models import Sequential
+from keras.models import Sequential, Model, Input
 from keras.layers import Dense, Dropout
 import keras.backend as K
 from keras.utils import plot_model
@@ -76,16 +76,29 @@ def DNN(dataset_X,dataset_Y):
     learning_rate = 0.005
 
     input_dim_x = dataset_train_X.shape[1]
-    model = Sequential()
-    model.add(Dense(1024, input_dim=input_dim_x,activation='relu', kernel_initializer='random_uniform'))
-    model.add(Dropout(0.25))
-    model.add(Dense(256, activation='relu', kernel_initializer='random_uniform'))
-    model.add(Dropout(0.25))
-    model.add(Dense(64, activation='relu', kernel_initializer='random_uniform'))
-    model.add(Dropout(0.25))
-    model.add(Dense(16, activation='relu', kernel_initializer='random_uniform'))
-    model.add(Dense(4, kernel_initializer='random_uniform'))
-    model.add(Dense(1, activation='sigmoid'))
+    # model = Sequential()
+    # model.add(Dense(1024, input_dim=input_dim_x,activation='relu', kernel_initializer='random_uniform'))
+    # model.add(Dropout(0.25))
+    # model.add(Dense(256, activation='relu', kernel_initializer='random_uniform'))
+    # model.add(Dropout(0.25))
+    # model.add(Dense(64, activation='relu', kernel_initializer='random_uniform'))
+    # model.add(Dropout(0.25))
+    # model.add(Dense(16, activation='relu', kernel_initializer='random_uniform'))
+    # model.add(Dense(4, kernel_initializer='random_uniform'))
+    # model.add(Dense(1, activation='sigmoid'))
+
+    inputs = Input(shape=(input_dim_x,), name="DNN_Input")
+    x = Dense(1024, input_dim=input_dim_x,activation='relu', kernel_initializer='random_uniform', name="DNN_Dense1")(inputs)
+    x = Dropout(0.25)(x)  # Avoid overfitting
+    x = Dense(256, activation='relu', kernel_initializer='random_uniform', name="DNN_Dense2")(x)
+    x = Dropout(0.25)(x)
+    x = Dense(64, activation='relu', kernel_initializer='random_uniform', name="DNN_Dense3")(x)
+    x = Dropout(0.25)(x)
+    x = Dense(16, activation='relu', kernel_initializer='random_uniform', name="DNN_Dense4")(x)
+    x = Dense(4, kernel_initializer='random_uniform', name='DNN_Dense5')(x)
+    x = Dense(1, activation='sigmoid')(x)
+
+    model = Model(inputs=inputs, outputs=x)
 
     adam = optimizers.Adam(lr=learning_rate)
 
