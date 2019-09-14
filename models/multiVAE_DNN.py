@@ -16,6 +16,7 @@ from keras.models import Model, Sequential
 from keras.layers import Dense, Input, Lambda
 from keras.losses import binary_crossentropy
 import keras.backend as K
+from keras.utils import plot_model
 
 import tensorflow as tf
 from tensorflow import set_random_seed
@@ -126,6 +127,9 @@ def multiVAE_DNN(dataset_X,dataset_Y):
     adam = optimizers.Adam(lr=learning_rate)
     Roadmap_VAE.compile(loss=vae_loss, optimizer=adam)
 
+    output_model_file = os.path.join('', 'Roadmap_VAE_DNN_architecture_' + st + '.png')
+    plot_model(Roadmap_VAE, to_file=output_model_file)
+
     Roadmap_res = Roadmap_VAE.fit(Roadmap_train_X, Roadmap_train_X, epochs=epochs_AE,
                                   batch_size=batch_size_AE,
                                   validation_data=(Roadmap_val_X, Roadmap_val_X),
@@ -159,6 +163,9 @@ def multiVAE_DNN(dataset_X,dataset_Y):
     adam = optimizers.Adam(lr=learning_rate)
     TF_VAE.compile(loss=vae_loss, optimizer=adam)
 
+    output_model_file = os.path.join('', 'TF_VAE_DNN_architecture_' + st + '.png')
+    plot_model(TF_VAE, to_file=output_model_file)
+
     TF_res = TF_VAE.fit(TF_train_X, TF_train_X, epochs=epochs_AE,
                         batch_size=batch_size_AE,
                         validation_data=(TF_val_X, TF_val_X),
@@ -191,6 +198,9 @@ def multiVAE_DNN(dataset_X,dataset_Y):
 
     adam = optimizers.Adam(lr=learning_rate)
     DNAacc_VAE.compile(loss=vae_loss, optimizer=adam)
+
+    output_model_file = os.path.join('', 'DNAacc_VAE_DNN_architecture_' + st + '.png')
+    plot_model(DNAacc_VAE, to_file=output_model_file)
 
     DNAacc_res = DNAacc_VAE.fit(DNAacc_train_X, DNAacc_train_X, epochs=epochs_AE,
                                 batch_size=batch_size_AE,
@@ -226,6 +236,9 @@ def multiVAE_DNN(dataset_X,dataset_Y):
     adam = optimizers.Adam(lr=learning_rate)
 
     model.compile(loss='binary_crossentropy', optimizer=adam, metrics=['binary_accuracy', f1_m, precision_m, recall_m])
+
+    output_model_file = os.path.join('', 'mVAE_DNN_architecture_' + st + '.png')
+    plot_model(model, to_file=output_model_file)
 
     result = model.fit(np.array(X_train, dtype=np.float32),
                        np.array(y_train, dtype=np.float32),

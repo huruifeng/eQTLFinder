@@ -16,6 +16,7 @@ from keras import optimizers
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 import keras.backend as K
+from keras.utils import plot_model
 
 from tensorflow import set_random_seed
 
@@ -89,6 +90,9 @@ def DNN(dataset_X,dataset_Y):
     adam = optimizers.Adam(lr=learning_rate)
 
     model.compile(loss='binary_crossentropy', optimizer=adam, metrics=['binary_accuracy', f1_m, precision_m, recall_m])
+
+    output_model_file = os.path.join('', 'DNN_architecture_'+st+'.png')
+    plot_model(model, to_file=output_model_file)
 
     result = model.fit(np.array(dataset_train_X, dtype=np.float32),
                        np.array(dataset_train_Y, dtype=np.float32),

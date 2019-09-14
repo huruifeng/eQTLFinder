@@ -14,6 +14,7 @@ from keras import optimizers
 from keras.models import Sequential, Model
 from keras.layers import Dense, Dropout, Input, concatenate
 import keras.backend as K
+from keras.utils import plot_model
 
 from tensorflow import set_random_seed
 
@@ -135,6 +136,9 @@ def DNN_multi(dataset_X,dataset_Y):
 
     adam = optimizers.Adam(lr=learning_rate)
     model.compile(loss='binary_crossentropy', optimizer=adam, metrics=['binary_accuracy', f1_m, precision_m, recall_m])
+
+    output_model_file = os.path.join('', 'mDNN_architecture_' + st + '.png')
+    plot_model(model, to_file=output_model_file)
 
     result = model.fit(train_sets,
                        dataset_train_Y,
