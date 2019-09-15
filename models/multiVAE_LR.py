@@ -249,7 +249,7 @@ def multiVAE_LR(dataset_X,dataset_Y):
     precision_test = round(precision_score(np.array(dataset_test_Y, dtype=np.float32), y_pred),4)
     recall_test = round(recall_score(np.array(dataset_test_Y, dtype=np.float32), y_pred),4)
 
-    AUROC_test = roc_auc_score(np.array(dataset_test_Y, dtype=np.float32), y_pred_x)
+    AUROC_test = round(roc_auc_score(np.array(dataset_test_Y, dtype=np.float32), y_pred_x),4)
     average_precision = round(average_precision_score(dataset_test_Y, y_pred_x), 4)
 
     fpr_roc, tpr_roc, thresholds_roc = roc_curve(dataset_test_Y, y_pred_x)
