@@ -234,7 +234,7 @@ def multiVAE_DNN(dataset_X,dataset_Y):
     # model.add(Dense(1, activation='sigmoid'))
 
     inputs = Input(shape=(input_dim_x,), name="mVAE_DNN_Input")
-    x = Dense(64, activation='relu', kernel_initializer='random_uniform', name="mVAE_DNN_Dense1")(x)
+    x = Dense(64, activation='relu', kernel_initializer='random_uniform', name="mVAE_DNN_Dense1")(inputs)
     x = Dense(16, activation='relu', kernel_initializer='random_uniform', name="mVAE_DNN_Dense2")(x)
     x = Dense(4, kernel_initializer='random_uniform', name="mVAE_DNN_Dense3")(x)
     x = Dense(1, activation='sigmoid',name="mVAE_DNN_output")(x)
