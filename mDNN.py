@@ -195,7 +195,7 @@ dataset_val_Y = dataset_Y[1]
 dataset_test_Y = dataset_Y[2]
 
 batch_size = 32
-epoach = 10
+epoach = 12
 learning_rate = 0.005
 
 ##=========================================================
@@ -213,7 +213,7 @@ test_sets = [Roadmap_test_X, TF_test_X, DNAacc_test_X]
 combined_model = concatenate(concat_frames)
 z = Dense(64, activation='relu', kernel_initializer='random_uniform', name='mDNN_Dense1')(combined_model)
 z = Dense(16, activation='relu', kernel_initializer='random_uniform', name='mDNN_Dense2')(z)
-z = Dense(4, activation='relu', kernel_initializer='random_uniform', name='mDNN_Dense3')(z)
+z = Dense(4, kernel_initializer='random_uniform', name='mDNN_Dense3')(z)
 z = Dense(1, activation='sigmoid', name='mDNN_output')(z)
 
 model = Model(inputs=model_input, outputs=z)
@@ -234,12 +234,12 @@ result = model.fit(train_sets,
 y_pred_x = model.predict(test_sets)
 y_pred = y_pred_x > 0.5
 
-accuracy_test = round(accuracy_score(np.array(dataset_test_Y, dtype=np.float32), y_pred), 4)
-precision_test = round(precision_score(np.array(dataset_test_Y, dtype=np.float32), y_pred), 4)
-recall_test = round(recall_score(np.array(dataset_test_Y, dtype=np.float32), y_pred), 4)
+accuracy_test = accuracy_score(np.array(dataset_test_Y, dtype=np.float32), y_pred)
+precision_test = precision_score(np.array(dataset_test_Y, dtype=np.float32), y_pred)
+recall_test = recall_score(np.array(dataset_test_Y, dtype=np.float32), y_pred)
 
-AUROC_test = round(roc_auc_score(np.array(dataset_test_Y, dtype=np.float32), y_pred_x),4)
-average_precision = round(average_precision_score(dataset_test_Y, y_pred_x), 4)
+AUROC_test = roc_auc_score(np.array(dataset_test_Y, dtype=np.float32), y_pred_x)
+average_precision = average_precision_score(dataset_test_Y, y_pred_x)
 
 fpr_roc, tpr_roc, thresholds_roc = roc_curve(dataset_test_Y, y_pred_x)
 precision_prc, recall_prc, thresholds_prc = precision_recall_curve(dataset_test_Y, y_pred_x)
@@ -249,5 +249,12 @@ del TF_model
 del DNAacc_model
 del model
 K.clear_session()
+
+data_x = { "accuracy": np.array([accuracy_test, precision_test, recall_test, AUROC_test,average_precision]),
+           "fpr": fpr_roc,
+           "tpr": tpr_roc,
+           "precision":precision_prc,
+           "recall":recall_prc}
+np.savez("Results/"+tissue+'-mDNN.npz', **data_x)
 
 #return [accuracy_test, precision_test,recall_test, AUROC_test, average_precision, fpr_roc, tpr_roc,precision_prc, recall_prc]

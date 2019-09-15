@@ -58,14 +58,20 @@ model.fit(X_train, y_train)
 y_pred_x = model.predict_proba(X_test)[:, 1]
 y_pred = y_pred_x > 0.5
 
-accuracy_test = round(accuracy_score(np.array(y_test, dtype=np.float32), y_pred), 4)
-precision_test = round(precision_score(np.array(y_test, dtype=np.float32), y_pred), 4)
-recall_test = round(recall_score(np.array(y_test, dtype=np.float32), y_pred), 4)
+accuracy_test = accuracy_score(np.array(y_test, dtype=np.float32), y_pred)
+precision_test = precision_score(np.array(y_test, dtype=np.float32), y_pred)
+recall_test = recall_score(np.array(y_test, dtype=np.float32), y_pred)
 
-AUROC_test = round(roc_auc_score(np.array(y_test, dtype=np.float32), y_pred_x), 4)
-average_precision = round(average_precision_score(y_test, y_pred_x), 4)
+AUROC_test = roc_auc_score(np.array(y_test, dtype=np.float32), y_pred_x)
+average_precision = average_precision_score(y_test, y_pred_x)
 
 fpr_roc, tpr_roc, thresholds_roc = roc_curve(y_test, y_pred_x)
 precision_prc, recall_prc, thresholds_prc = precision_recall_curve(y_test, y_pred_x)
+data_x = { "accuracy": np.array([accuracy_test, precision_test, recall_test, AUROC_test,average_precision]),
+           "fpr": fpr_roc,
+           "tpr": tpr_roc,
+           "precision":precision_prc,
+           "recall":recall_prc}
+np.savez("Results/"+tissue+'-mVAE_Forest.npz', **data_x)
 
 #return [accuracy_test, precision_test,recall_test, AUROC_test, average_precision, fpr_roc, tpr_roc,precision_prc, recall_prc]

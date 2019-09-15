@@ -104,7 +104,7 @@ input_dim_x = X_train.shape[1]
 inputs = Input(shape=(input_dim_x,), name="mVAE_DNN_Input")
 x = Dense(64, activation='relu', kernel_initializer='random_uniform', name="mVAE_DNN_Dense1")(inputs)
 x = Dense(16, activation='relu', kernel_initializer='random_uniform', name="mVAE_DNN_Dense2")(x)
-x = Dense(4, kernel_initializer='random_uniform', name="mVAE_DNN_Dense3")(x)
+x = Dense(4, activation='relu', kernel_initializer='random_uniform', name="mVAE_DNN_Dense3")(x)
 x = Dense(1, activation='sigmoid',name="mVAE_DNN_output")(x)
 
 model = Model(inputs=inputs, outputs=x)
@@ -124,17 +124,24 @@ result = model.fit(np.array(X_train, dtype=np.float32),
 y_pred_x = model.predict(np.array(X_test))
 y_pred = y_pred_x > 0.5
 
-accuracy_test = round(accuracy_score(np.array(y_test, dtype=np.float32), y_pred), 4)
-precision_test = round(precision_score(np.array(y_test, dtype=np.float32), y_pred), 4)
-recall_test = round(recall_score(np.array(y_test, dtype=np.float32), y_pred), 4)
+accuracy_test = accuracy_score(np.array(y_test, dtype=np.float32), y_pred)
+precision_test = precision_score(np.array(y_test, dtype=np.float32), y_pred)
+recall_test = recall_score(np.array(y_test, dtype=np.float32), y_pred)
 
-AUROC_test = round(roc_auc_score(np.array(y_test, dtype=np.float32), y_pred_x),4)
-average_precision = round(average_precision_score(y_test, y_pred_x), 4)
+AUROC_test = roc_auc_score(np.array(y_test, dtype=np.float32), y_pred_x)
+average_precision = average_precision_score(y_test, y_pred_x)
 
 fpr_roc, tpr_roc, thresholds_roc = roc_curve(y_test, y_pred_x)
 precision_prc, recall_prc, thresholds_prc = precision_recall_curve(y_test, y_pred_x)
 
 del model
 K.clear_session()
+
+data_x = { "accuracy": np.array([accuracy_test, precision_test, recall_test, AUROC_test,average_precision]),
+           "fpr": fpr_roc,
+           "tpr": tpr_roc,
+           "precision":precision_prc,
+           "recall":recall_prc}
+np.savez("Results/"+tissue+'-mVAE_DNN.npz', **data_x)
 
 #return [accuracy_test, precision_test,recall_test, AUROC_test, average_precision, fpr_roc, tpr_roc,precision_prc, recall_prc]
