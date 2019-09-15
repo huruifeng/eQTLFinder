@@ -24,15 +24,18 @@ np.random.seed(12)
 
 #==========================================================
 tissue = sys.argv[1]
-# tissue = "Brain_Substantia_nigra"
-print('[INFO] Loading '+tissue+' data...')
+file = sys.argv[2]
+
+#tissue = "Brain_Substantia_nigra"
+# path = "C:\\Users\\hurui\\Dropbox\\Temp\\"
+# file = path + tissue+'_matrix_1v3_signal_100.txt'
 
 ## load dataset
-path = "C:\\Users\\hurui\\Dropbox\\Temp\\"
-file = path + tissue+'_matrix_1v3_signal_100.txt'
+print('[INFO] Loading '+tissue+' data...')
 print(file)
 dataset = pd.read_csv(file, sep='\t',index_col=0, header=0)
 print(dataset.shape)
+
 
 ## Subset: selecte dataset
 print("Subset:")

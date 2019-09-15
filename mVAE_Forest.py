@@ -25,7 +25,6 @@ st = datetime.datetime.fromtimestamp(ts).strftime("%Y%m%d_%H%M%S")
 ## fix random seed for reproducibility
 np.random.seed(12)
 
-
 #==========================================================
 tissue = sys.argv[1]
 # tissue = "Brain_Substantia_nigra"

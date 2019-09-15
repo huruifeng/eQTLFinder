@@ -11,9 +11,11 @@ import matplotlib.pyplot as plt
 
 
 tissue = "Brain_Substantia_nigra"
+path = "C:\\Users\\hurui\\Dropbox\\Temp\\"
+file = path + tissue+'_matrix_1v3_signal_100.txt'
 
 print("**********DNN**********")
-command_str = "python3 DNN.py "+ tissue
+command_str = "python3 DNN.py "+ tissue + " " + file
 #os.system(command_str)
 subprocess.call(command_str, shell=True)
 
