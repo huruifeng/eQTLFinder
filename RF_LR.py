@@ -1,0 +1,153 @@
+"""
+Ruifeng Hu
+09132019
+UTHealth-SBMI
+"""
+
+import sys
+import datetime
+import time
+
+import pandas as pd
+import numpy as np
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import OneHotEncoder
+
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import roc_curve, precision_recall_curve
+from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_auc_score, average_precision_score
+
+ts = time.time()
+st = datetime.datetime.fromtimestamp(ts).strftime("%Y%m%d_%H%M%S")
+
+#==========================================================
+## fix random seed for reproducibility
+np.random.seed(12)
+
+#==========================================================
+tissue = sys.argv[1]
+#tissue = "Brain_Substantia_nigra"
+print('[INFO] Loading '+tissue+' data...')
+
+## load dataset
+path = "C:\\Users\\hurui\\Dropbox\\Temp\\"
+file = path + tissue+'_matrix_1v3_signal_100.txt'
+print(file)
+dataset = pd.read_csv(file, sep='\t',index_col=0, header=0)
+print(dataset.shape)
+
+## Subset: selecte dataset
+print("Subset:")
+y_true = dataset.iloc[:, [-1]]
+GC = dataset.loc[:, ["GC"]]
+
+# 1.Roadmap
+print("Roadmap:")
+dataset_Roadmap = dataset.iloc[:, dataset.columns.str.startswith("Roadmap_")]
+print(dataset_Roadmap.shape)
+dataset_Roadmap = dataset_Roadmap.loc[:, (dataset_Roadmap != 0).any(axis=0)]
+print(dataset_Roadmap.shape)
+
+# 2.TF
+print("TF:")
+dataset_TF = dataset.iloc[:, dataset.columns.str.startswith("TF_")]
+print(dataset_TF.shape)
+dataset_TF = dataset_TF.loc[:, (dataset_TF != 0).any(axis=0)]
+print(dataset_TF.shape)
+
+# 3.DNAacc
+print("DNAacc:")
+dataset_DNAacc = dataset.iloc[:, dataset.columns.str.startswith("DNAacc_")]
+print(dataset_DNAacc.shape)
+dataset_DNAacc = dataset_DNAacc.loc[:, (dataset_DNAacc != 0).any(axis=0)]
+print(dataset_DNAacc.shape)
+
+# 4.Methyl
+print("Methyl:")
+dataset_Methyl = dataset.iloc[:, dataset.columns.str.startswith("Methyl_")]
+print(dataset_Methyl.shape)
+dataset_Methyl = dataset_Methyl.loc[:, (dataset_Methyl != 0).any(axis=0)]
+print(dataset_Methyl.shape)
+
+# Make the input dataframe
+frames = [dataset_Roadmap, dataset_TF, dataset_DNAacc]
+dataset_input_X = pd.concat(frames, axis=1, sort=False)
+print("Input Shape:",dataset_input_X.shape)
+
+print("[INFO] Sorting data ...")
+dataset_input_X.sort_index(inplace=True)
+
+print("[INFO] Normalizing data ...")
+dataset_input_X = dataset_input_X.apply(lambda x: (x - x.min()) / (x.max() - x.min()), axis=0)
+print(dataset_input_X.shape)
+
+print("[INFO] Drop features that caontain NA values of data...")
+dataset_input_X.dropna(axis="columns", inplace=True)
+print(dataset_input_X.shape)
+
+X_train, X_test, y_train, y_test = train_test_split(dataset_input_X, y_true, test_size=0.20)
+X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.20)
+
+test_index = X_test.index
+val_index = X_val.index
+train_index = X_train.index
+
+dataset_test_X = dataset_input_X.loc[test_index,:]
+dataset_val_X = dataset_input_X.loc[val_index,:]
+dataset_train_X = dataset_input_X.loc[train_index, :]
+
+dataset_test_Y = y_true.loc[test_index, :]
+dataset_val_Y = y_true.loc[val_index,:]
+dataset_train_Y = y_true.loc[train_index, :]
+
+print("Train:", dataset_train_X.shape)
+print("Val:", dataset_val_X.shape)
+print("Test:", dataset_test_X.shape)
+
+dataset_X = [dataset_train_X, dataset_val_X, dataset_test_X]
+dataset_Y = [dataset_train_Y, dataset_val_Y, dataset_test_Y]
+#=========================================================
+
+dataset_train_X = dataset_X[0]
+dataset_val_X = dataset_X[1]
+dataset_test_X = dataset_X[2]
+
+dataset_train_Y = np.array(dataset_Y[0])
+dataset_val_Y = np.array(dataset_Y[1])
+dataset_test_Y = np.array(dataset_Y[2])
+
+X_train, X_train_lr, y_train, y_train_lr = train_test_split(dataset_train_X, dataset_train_Y, test_size=0.5)
+
+# Supervised transformation based on random forests
+rf = RandomForestClassifier(n_estimators=200, max_depth=None, min_samples_split=2, random_state=0)
+rf_enc = OneHotEncoder(categories='auto')
+rf_lm = LogisticRegression(solver='lbfgs', max_iter=1000)
+rf.fit(X_train, np.ravel(y_train))
+rf_enc.fit(rf.apply(X_train))
+rf_lm.fit(rf_enc.transform(rf.apply(X_train_lr)), y_train_lr)
+
+y_pred_rf_lm = rf_lm.predict_proba(rf_enc.transform(rf.apply(dataset_test_X)))[:, 1]
+fpr_rf_lm, tpr_rf_lm, _ = roc_curve(dataset_test_Y, y_pred_rf_lm)
+y_pred_x = y_pred_rf_lm
+y_pred = y_pred_x > 0.5
+
+accuracy_test = round(accuracy_score(np.array(dataset_test_Y, dtype=np.float32), y_pred), 4)
+precision_test = round(precision_score(np.array(dataset_test_Y, dtype=np.float32), y_pred), 4)
+recall_test = round(recall_score(np.array(dataset_test_Y, dtype=np.float32), y_pred), 4)
+
+AUROC_test = round(roc_auc_score(np.array(dataset_test_Y, dtype=np.float32), y_pred_x), 4)
+average_precision = round(average_precision_score(dataset_test_Y, y_pred_x), 4)
+
+fpr_roc, tpr_roc, thresholds_roc = roc_curve(dataset_test_Y, y_pred_x)
+precision_prc, recall_prc, thresholds_prc = precision_recall_curve(dataset_test_Y, y_pred_x)
+
+
+del rf
+del rf_enc
+del rf_lm
+
+
+#return [accuracy_test, precision_test,recall_test, AUROC_test, average_precision, fpr_roc, tpr_roc,precision_prc, recall_prc]
+
