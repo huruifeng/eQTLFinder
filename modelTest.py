@@ -11,9 +11,9 @@ import matplotlib.pyplot as plt
 
 
 tissue = "Brain_Substantia_nigra"
-#path = "C:\\Users\\rhu1\\Dropbox\\Temp\\"
-path = "C:\\Users\\hurui\\Dropbox\\Temp\\"
-file = path + tissue+'_matrix_1v3_hit.txt'
+path = "C:\\Users\\rhu1\\Dropbox\\Temp\\"
+#path = "C:\\Users\\hurui\\Dropbox\\Temp\\"
+file = path + tissue+'_matrix_1v1_signal_100.txt'
 result_folder = "Results"
 
 if not os.path.exists(result_folder):
