@@ -11,8 +11,8 @@ import matplotlib.pyplot as plt
 
 
 tissue = "Brain_Substantia_nigra"
-path = "C:\\Users\\rhu1\\Dropbox\\Temp\\"
-#path = "C:\\Users\\hurui\\Dropbox\\Temp\\"
+#path = "C:\\Users\\rhu1\\Dropbox\\Temp\\"
+path = "C:\\Users\\hurui\\Dropbox\\Temp\\"
 file = path + tissue+'_matrix_1v3_hit.txt'
 result_folder = "Results"
 
@@ -128,7 +128,7 @@ plt.xlabel("False positive rate")
 plt.ylabel("True positive rate")
 plt.title("ROC curve")
 plt.legend(loc="best", fontsize=6)
-plt.savefig("Results/"+tissue+"_AUROC.pdf")
+plt.savefig(result_folder+"/"+tissue+"_AUROC.pdf")
 
 ##=========================================
 plt.figure(2)
@@ -163,7 +163,7 @@ plt.xlabel("Recall")
 plt.ylabel("Precision")
 plt.title("ROC curve")
 plt.legend(loc="best",fontsize=6)
-plt.savefig("Results/"+tissue+"_P-R.pdf")
+plt.savefig(result_folder+"/"+tissue+"_P-R.pdf")
 
 data_DNN.close()
 data_mDNN.close()
