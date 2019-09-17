@@ -26,7 +26,7 @@ np.random.seed(12)
 #==========================================================
 tissue = sys.argv[1]
 file = sys.argv[2]
-
+Results = sys.argv[3]
 #tissue = "Brain_Substantia_nigra"
 # path = "C:\\Users\\hurui\\Dropbox\\Temp\\"
 # file = path + tissue+'_matrix_1v3_signal_100.txt'
@@ -142,7 +142,7 @@ data_x = { "accuracy": np.array([accuracy_test, precision_test, recall_test, AUR
            "tpr": tpr_roc,
            "precision":precision_prc,
            "recall":recall_prc}
-np.savez("Results/"+tissue+'-RF.npz', **data_x)
+np.savez(Results+"/"+tissue+'-RF.npz', **data_x)
 
 #return [accuracy_test, precision_test,recall_test, AUROC_test, average_precision, fpr_roc, tpr_roc,precision_prc, recall_prc]
 

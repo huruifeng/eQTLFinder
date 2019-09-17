@@ -74,8 +74,8 @@ def get_model(input_dim, str):
     x = Dense(512, activation='relu', kernel_initializer='random_uniform', name=str + '_sub_Dense1')(inputs)
     x = Dropout(0.2)(x)  # Avoid overfitting
 
-    #x = Dense(256, activation='relu', kernel_initializer='random_uniform', name=str + '_sub_Dense2')(x)
-    #x = Dropout(0.2)(x)
+    x = Dense(256, activation='relu', kernel_initializer='random_uniform', name=str + '_sub_Dense2')(x)
+    x = Dropout(0.2)(x)
 
     x = Dense(128, activation='relu', kernel_initializer='random_uniform', name=str + '_sub_Dense3')(x)
     x = Dropout(0.2)(x)
@@ -89,7 +89,7 @@ def get_model(input_dim, str):
 #========================================================================================
 tissue = sys.argv[1]
 file = sys.argv[2]
-epoach_x = int(sys.argv[3])
+Results = sys.argv[3]
 
 #tissue = "Brain_Substantia_nigra"
 # path = "C:\\Users\\hurui\\Dropbox\\Temp\\"
@@ -198,7 +198,7 @@ dataset_val_Y = dataset_Y[1]
 dataset_test_Y = dataset_Y[2]
 
 batch_size = 32
-epoach = epoach_x
+epoach = 12
 learning_rate = 0.005
 
 ##=========================================================
@@ -258,6 +258,6 @@ data_x = { "accuracy": np.array([accuracy_test, precision_test, recall_test, AUR
            "tpr": tpr_roc,
            "precision":precision_prc,
            "recall":recall_prc}
-np.savez("Results/"+tissue+'-mDNN.npz', **data_x)
+np.savez(Results+"/"+tissue+'-mDNN.npz', **data_x)
 
 #return [accuracy_test, precision_test,recall_test, AUROC_test, average_precision, fpr_roc, tpr_roc,precision_prc, recall_prc]

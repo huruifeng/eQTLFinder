@@ -14,53 +14,54 @@ tissue = "Brain_Substantia_nigra"
 path = "C:\\Users\\rhu1\\Dropbox\\Temp\\"
 #path = "C:\\Users\\hurui\\Dropbox\\Temp\\"
 file = path + tissue+'_matrix_1v1_signal.txt'
+result_folder = "Results"
 
 print("**********DNN**********")
-command_str = "python3 DNN.py "+ tissue + " " + file
+command_str = "python3 DNN.py "+ tissue + " " + file + " "+result_folder
 #os.system(command_str)
 subprocess.call(command_str, shell=True)
 
 print("**********mDNN**********")
 epoach_x = 12
-command_str = "python3 mDNN.py "+ tissue+ " " + file + " " + str(epoach_x)
+command_str = "python3 mDNN.py "+ tissue+ " " + file +  " " +result_folder
 #os.system(command_str)
 subprocess.call(command_str, shell=True)
 
 print("**********RF**********")
-command_str = "python3 RF.py "+ tissue+ " " + file
+command_str = "python3 RF.py "+ tissue+ " " + file + " "+result_folder
 #os.system(command_str)
 subprocess.call(command_str, shell=True)
 
 print("**********LR**********")
-command_str = "python3 LR.py "+ tissue+ " " + file
+command_str = "python3 LR.py "+ tissue+ " " + file + " "+result_folder
 #os.system(command_str)
 subprocess.call(command_str, shell=True)
 
 print("**********RF_LR**********")
-command_str = "python3 RF_LR.py "+ tissue+ " " + file
+command_str = "python3 RF_LR.py "+ tissue+ " " + file + " "+result_folder
 #os.system(command_str)
 subprocess.call(command_str, shell=True)
 
 print("**********KNN**********")
-command_str = "python3 KNN.py "+ tissue+ " " + file
+command_str = "python3 KNN.py "+ tissue+ " " + file + " "+result_folder
 #os.system(command_str)
 subprocess.call(command_str, shell=True)
 
-command_str = "python3 VAE.py "+ tissue+ " " + file
+command_str = "python3 VAE.py "+ tissue+ " " + file + " "+result_folder
 #os.system(command_str)
 subprocess.call(command_str, shell=True)
 print("**********mVAE_DNN**********")
-command_str = "python3 mVAE_DNN.py "+ tissue
+command_str = "python3 mVAE_DNN.py "+ tissue + " "+result_folder
 #os.system(command_str)
 subprocess.call(command_str, shell=True)
 
 print("**********mVAE_Forest**********")
-command_str = "python3 mVAE_Forest.py "+ tissue
+command_str = "python3 mVAE_Forest.py "+ tissue + " "+result_folder
 #os.system(command_str)
 subprocess.call(command_str, shell=True)
 
 print("**********mVAE_LR**********")
-command_str = "python3 mVAE_LR.py "+ tissue
+command_str = "python3 mVAE_LR.py "+ tissue + " "+result_folder
 #os.system(command_str)
 subprocess.call(command_str, shell=True)
 

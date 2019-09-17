@@ -28,6 +28,7 @@ np.random.seed(12)
 #==========================================================
 tissue = sys.argv[1]
 # tissue = "Brain_Substantia_nigra"
+Results = sys.argv[2]
 
 Roadmap_encoded_df = pd.read_csv("encoded_Roadmap.txt", sep = "\t", index_col=0,header=0)
 TF_encoded_df = pd.read_csv("encoded_TF.txt", sep = "\t", index_col=0,header=0)
@@ -71,6 +72,6 @@ data_x = { "accuracy": np.array([accuracy_test, precision_test, recall_test, AUR
            "tpr": tpr_roc,
            "precision":precision_prc,
            "recall":recall_prc}
-np.savez("Results/"+tissue+'-mVAE_LR.npz', **data_x)
+np.savez(Results+"/"+tissue+'-mVAE_LR.npz', **data_x)
 
 #return [accuracy_test, precision_test,recall_test, AUROC_test, average_precision, fpr_roc, tpr_roc,precision_prc, recall_prc]
