@@ -157,7 +157,7 @@ dataset_test_Y = dataset_Y[2]
 
 
 batch_size = 32
-epoach = 12
+epoach = 10
 learning_rate = 0.005
 
 input_dim_x = dataset_train_X.shape[1]

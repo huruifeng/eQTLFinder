@@ -1,3 +1,9 @@
+import os
+import subprocess
+
+import numpy as np
+import matplotlib.pyplot as plt
+
 """
 Ruifeng Hu
 09132019
@@ -13,7 +19,7 @@ import matplotlib.pyplot as plt
 tissue = "Brain_Substantia_nigra"
 path = "C:\\Users\\rhu1\\Dropbox\\Temp\\"
 #path = "C:\\Users\\hurui\\Dropbox\\Temp\\"
-file = path + tissue+'_matrix_1v1_signal.txt'
+file = path + tissue+'_matrix_1v3_signal_100.txt'
 
 print("**********DNN**********")
 command_str = "python3 DNN.py "+ tissue + " " + file
@@ -76,6 +82,8 @@ data_mVAE_DNN = np.load("Results/"+tissue+"-mVAE_DNN.npz", allow_pickle=True)
 data_mVAE_Forest = np.load("Results/"+tissue+"-mVAE_Forest.npz", allow_pickle=True)
 data_mVAE_LR = np.load("Results/"+tissue+"-mVAE_LR.npz", allow_pickle=True)
 
+
+# =========================================================================
 # accuracy: [0:accuracy, 1:precision, 2:recall, 3:AUROC, 4:average_precision]
 # fpr: fpr_roc,
 # tpr: tpr_roc,
@@ -170,7 +178,4 @@ data_KNN.close()
 data_mVAE_DNN.close()
 data_mVAE_Forest.close()
 data_mVAE_LR.close()
-
-
-
 
