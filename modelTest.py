@@ -13,8 +13,11 @@ import matplotlib.pyplot as plt
 tissue = "Brain_Substantia_nigra"
 path = "C:\\Users\\rhu1\\Dropbox\\Temp\\"
 #path = "C:\\Users\\hurui\\Dropbox\\Temp\\"
-file = path + tissue+'_matrix_1v1_signal.txt'
+file = path + tissue+'_matrix_1v3_hit.txt'
 result_folder = "Results"
+
+if not os.path.exists(result_folder):
+    os.mkdir(result_folder)
 
 print("**********DNN**********")
 command_str = "python3 DNN.py "+ tissue + " " + file + " "+result_folder
@@ -67,15 +70,15 @@ subprocess.call(command_str, shell=True)
 
 
 #===================================================================
-data_DNN = np.load("Results/"+tissue+"-DNN.npz", allow_pickle=True)
-data_mDNN = np.load("Results/"+tissue+"-mDNN.npz", allow_pickle=True)
-data_RF = np.load("Results/"+tissue+"-RF.npz", allow_pickle=True)
-data_LR = np.load("Results/"+tissue+"-LR.npz", allow_pickle=True)
-data_RF_LR = np.load("Results/"+tissue+"-RF_LR.npz", allow_pickle=True)
-data_KNN = np.load("Results/"+tissue+"-KNN.npz", allow_pickle=True)
-data_mVAE_DNN = np.load("Results/"+tissue+"-mVAE_DNN.npz", allow_pickle=True)
-data_mVAE_Forest = np.load("Results/"+tissue+"-mVAE_Forest.npz", allow_pickle=True)
-data_mVAE_LR = np.load("Results/"+tissue+"-mVAE_LR.npz", allow_pickle=True)
+data_DNN = np.load(result_folder+"/"+tissue+"-DNN.npz", allow_pickle=True)
+data_mDNN = np.load(result_folder+"/"+tissue+"-mDNN.npz", allow_pickle=True)
+data_RF = np.load(result_folder+"/"+tissue+"-RF.npz", allow_pickle=True)
+data_LR = np.load(result_folder+"/"+tissue+"-LR.npz", allow_pickle=True)
+data_RF_LR = np.load(result_folder+"/"+tissue+"-RF_LR.npz", allow_pickle=True)
+data_KNN = np.load(result_folder+"/"+tissue+"-KNN.npz", allow_pickle=True)
+data_mVAE_DNN = np.load(result_folder+"/"+tissue+"-mVAE_DNN.npz", allow_pickle=True)
+data_mVAE_Forest = np.load(result_folder+"/"+tissue+"-mVAE_Forest.npz", allow_pickle=True)
+data_mVAE_LR = np.load(result_folder+"/"+tissue+"-mVAE_LR.npz", allow_pickle=True)
 
 # accuracy: [0:accuracy, 1:precision, 2:recall, 3:AUROC, 4:average_precision]
 # fpr: fpr_roc,
