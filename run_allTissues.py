@@ -71,21 +71,26 @@ if __name__ == '__main__':
     if not os.path.exists(result_folder):
         os.mkdir(result_folder)
 
-    process_num = 30
-    pool = Pool(processes=process_num)
+    # process_num = 10
+    # pool = Pool(processes=process_num)
+    # for tissue_i in os.listdir(matrix_folder):
+    #     #print(tissue_i)
+    #     #if 'Brain_Substantia_nigra' not in tissue_i:
+    #     #    continue
+    #     tissue =  tissue_i[:-11]
+    #     matrix_file = matrix_folder + tissue_i
+    #
+    #     pool.apply_async(runModels, args=(tissue, matrix_file, result_folder,))
+    # pool.close()
+    # pool.join()
+
     for tissue_i in os.listdir(matrix_folder):
-        #print(tissue_i)
-        #if 'Brain_Substantia_nigra' not in tissue_i:
-        #    continue
+        # print(tissue_i)
+        # if 'Brain_Substantia_nigra' not in tissue_i:
+        #     continue
         tissue =  tissue_i[:-11]
         matrix_file = matrix_folder + tissue_i
+        runModels(tissue, matrix_file, result_folder)
 
-        pool.apply_async(runModels, args=(tissue, matrix_file, result_folder,))
-    pool.close()
-    pool.join()
     print('[INFO] Model run, Done !')
 
-    print("**********plotResults**********")
-    command_str = "pplotResult.py " + matrix_folder + " " + result_folder
-    # os.system(command_str)
-    subprocess.call(command_str, shell=True)
