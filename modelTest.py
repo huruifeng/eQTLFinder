@@ -73,6 +73,11 @@ command_str = "python3 mVAE_LR.py "+ tissue + " "+result_folder
 #os.system(command_str)
 subprocess.call(command_str, shell=True)
 
+print("**********mVAE_EN**********")
+command_str = "python3 mVAE_EN.py "+ tissue + " "+result_folder
+#os.system(command_str)
+subprocess.call(command_str, shell=True)
+
 
 #===================================================================
 data_DNN = np.load(result_folder+"/"+tissue+"-DNN.npz", allow_pickle=True)
@@ -85,7 +90,7 @@ data_KNN = np.load(result_folder+"/"+tissue+"-KNN.npz", allow_pickle=True)
 data_mVAE_DNN = np.load(result_folder+"/"+tissue+"-mVAE_DNN.npz", allow_pickle=True)
 data_mVAE_Forest = np.load(result_folder+"/"+tissue+"-mVAE_Forest.npz", allow_pickle=True)
 data_mVAE_LR = np.load(result_folder+"/"+tissue+"-mVAE_LR.npz", allow_pickle=True)
-data_mVAE_LR = np.load(result_folder+"/"+tissue+"-mVAE_EN.npz", allow_pickle=True)
+data_mVAE_EN = np.load(result_folder+"/"+tissue+"-mVAE_EN.npz", allow_pickle=True)
 
 # accuracy: [0:accuracy, 1:precision, 2:recall, 3:AUROC, 4:average_precision]
 # fpr: fpr_roc,
