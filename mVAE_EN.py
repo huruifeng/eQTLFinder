@@ -55,7 +55,7 @@ model = ElasticNet(random_state=0, normalize = True)
 model.fit(X_train, y_train)
 #=============================================================================
 
-y_pred_x = model.predict_proba(X_test)[:, 1]
+y_pred_x = model.predict(X_test)
 y_pred = y_pred_x > 0.5
 
 accuracy_test = accuracy_score(np.array(y_test, dtype=np.float32), y_pred)
