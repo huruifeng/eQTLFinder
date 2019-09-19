@@ -100,7 +100,7 @@ data_mVAE_EN = np.load(result_folder+"/"+tissue+"-mVAE_EN.npz", allow_pickle=Tru
 
 print("DNN:",data_DNN["accuracy"])
 print("mDNN:", data_mDNN["accuracy"])
-print("MLP:", data_mDNN["accuracy"])
+print("MLP:", data_MLP["accuracy"])
 print("RF:", data_RF["accuracy"])
 print("LR:",data_LR["accuracy"])
 print("RF_LR:",data_RF_LR["accuracy"])

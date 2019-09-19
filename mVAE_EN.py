@@ -50,7 +50,7 @@ print(X_dataset.shape)
 
 X_train, X_test, y_train, y_test = train_test_split(X_dataset, y_dataset, test_size=0.20)
 
-model = ElasticNet(random_state=0, normalize = True)
+model = ElasticNet( normalize = True)
 #model = ElasticNetCV(cv=5,random_state=0, normalize = True)
 model.fit(X_train, y_train)
 #=============================================================================
