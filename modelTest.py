@@ -203,6 +203,7 @@ data_KNN.close()
 data_mVAE_DNN.close()
 data_mVAE_Forest.close()
 data_mVAE_LR.close()
+data_mVAE_EN.close()
 
 
 
