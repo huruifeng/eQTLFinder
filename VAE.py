@@ -214,7 +214,7 @@ Roadmap_encoded_df = pd.DataFrame(encoded_df, index=Roadmap_input_X.index)
 frames = [Roadmap_encoded_df, y_true]
 Roadmap_df = pd.concat(frames, axis=1, sort=False)
 
-encoded_file = os.path.join('', 'encoded_Roadmap.txt')
+encoded_file = os.path.join('', tissue+'-encoded_Roadmap.txt')
 Roadmap_df.to_csv(encoded_file, sep='\t', index=True)
 
 ## TF
@@ -249,7 +249,7 @@ TF_encoded_df = pd.DataFrame(encoded_df, index=TF_input_X.index)
 frames = [TF_encoded_df, y_true]
 TF_df = pd.concat(frames, axis=1, sort=False)
 
-encoded_file = os.path.join('', 'encoded_TF.txt')
+encoded_file = os.path.join('', tissue+'-encoded_TF.txt')
 TF_df.to_csv(encoded_file, sep='\t', index=True)
 
 ## DNAacc
@@ -284,5 +284,5 @@ DNAacc_encoded_df = pd.DataFrame(encoded_df, index=DNAacc_input_X.index)
 frames = [DNAacc_encoded_df, y_true]
 DNAacc_df = pd.concat(frames, axis=1, sort=False)
 
-encoded_file = os.path.join('', 'encoded_DNAacc.txt')
+encoded_file = os.path.join('', tissue+'-encoded_DNAacc.txt')
 DNAacc_df.to_csv(encoded_file, sep='\t', index=True)

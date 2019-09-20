@@ -118,7 +118,7 @@ dataset_train_Y = np.array(dataset_Y[0])
 dataset_val_Y = np.array(dataset_Y[1])
 dataset_test_Y = np.array(dataset_Y[2])
 
-model = MLPClassifier(hidden_layer_sizes = (1024,512,256,128,64,32,16,8,4), solver='lbfgs', alpha=1e-5, random_state=1)
+model = MLPClassifier(hidden_layer_sizes = (1024,128,16,4), solver='lbfgs', alpha=1e-5, random_state=1,activation="logistic")
 
 model.fit(dataset_train_X, np.ravel(dataset_train_Y))
 

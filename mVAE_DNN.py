@@ -69,9 +69,9 @@ tissue = sys.argv[1]
 # tissue = "Brain_Substantia_nigra"
 Results = sys.argv[2]
 
-Roadmap_encoded_df = pd.read_csv("encoded_Roadmap.txt", sep = "\t", index_col=0,header=0)
-TF_encoded_df = pd.read_csv("encoded_TF.txt", sep = "\t", index_col=0,header=0)
-DNAacc_encoded_df = pd.read_csv("encoded_DNAacc.txt", sep = "\t", index_col=0,header=0)
+Roadmap_encoded_df = pd.read_csv(tissue+"-encoded_Roadmap.txt", sep = "\t", index_col=0,header=0)
+TF_encoded_df = pd.read_csv(tissue+"-encoded_TF.txt", sep = "\t", index_col=0,header=0)
+DNAacc_encoded_df = pd.read_csv(tissue+"-encoded_DNAacc.txt", sep = "\t", index_col=0,header=0)
 
 dataset_Y = Roadmap_encoded_df.iloc[:,[-1]]
 
@@ -105,7 +105,7 @@ input_dim_x = X_train.shape[1]
 inputs = Input(shape=(input_dim_x,), name="mVAE_DNN_Input")
 x = Dense(64, activation='relu', kernel_initializer='random_uniform', name="mVAE_DNN_Dense1")(inputs)
 x = Dense(16, activation='relu', kernel_initializer='random_uniform', name="mVAE_DNN_Dense2")(x)
-x = Dense(4, activation='relu', kernel_initializer='random_uniform', name="mVAE_DNN_Dense3")(x)
+x = Dense(4, kernel_initializer='random_uniform', name="mVAE_DNN_Dense3")(x)
 x = Dense(1, activation='sigmoid',name="mVAE_DNN_output")(x)
 
 model = Model(inputs=inputs, outputs=x)

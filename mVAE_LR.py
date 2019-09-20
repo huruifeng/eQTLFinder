@@ -30,9 +30,9 @@ tissue = sys.argv[1]
 # tissue = "Brain_Substantia_nigra"
 Results = sys.argv[2]
 
-Roadmap_encoded_df = pd.read_csv("encoded_Roadmap.txt", sep = "\t", index_col=0,header=0)
-TF_encoded_df = pd.read_csv("encoded_TF.txt", sep = "\t", index_col=0,header=0)
-DNAacc_encoded_df = pd.read_csv("encoded_DNAacc.txt", sep = "\t", index_col=0,header=0)
+Roadmap_encoded_df = pd.read_csv(tissue+"-encoded_Roadmap.txt", sep = "\t", index_col=0,header=0)
+TF_encoded_df = pd.read_csv(tissue+"-encoded_TF.txt", sep = "\t", index_col=0,header=0)
+DNAacc_encoded_df = pd.read_csv(tissue+"-encoded_DNAacc.txt", sep = "\t", index_col=0,header=0)
 
 dataset_Y = Roadmap_encoded_df.iloc[:,[-1]]
 
