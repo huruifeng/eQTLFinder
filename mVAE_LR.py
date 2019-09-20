@@ -74,4 +74,7 @@ data_x = { "accuracy": np.array([accuracy_test, precision_test, recall_test, AUR
            "recall":recall_prc}
 np.savez(Results+"/"+tissue+'-mVAE_LR.npz', **data_x)
 
+os.remove(tissue+"-encoded_Roadmap.txt")
+os.remove(tissue+"-encoded_TF.txt")
+os.remove(tissue+"-encoded_DNAacc.txt")
 #return [accuracy_test, precision_test,recall_test, AUROC_test, average_precision, fpr_roc, tpr_roc,precision_prc, recall_prc]
